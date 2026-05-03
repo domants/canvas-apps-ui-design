@@ -31,77 +31,107 @@ npx skills add ToluVictor/canvas-apps-tools --skill canvas-apps-ui-gen
 
 ---
 
-### 2. (Optional) Activate the Skill in Claude Code
+### 2. Push the Project to a Public GitHub Repository
 
-Depending on your environment, you may trigger the skill manually:
+After installing the skill locally, publish your project so Claude Code Desktop can access it.
 
 ```bash
+git init
+git add .
+git commit -m "Initial commit with canvas-apps-ui-gen skill"
+git branch -M main
+git remote add origin https://github.com/<your-username>/canvas-app-ui-design.git
+git push -u origin main
+```
+
+> Your repo must be **public** (or accessible to Claude Code).
+
+---
+
+### 3. Link the Repository in Claude Code Desktop
+
+1. Open Claude Code Desktop
+2. Go to **Files** section
+3. Click **+ (Add Repo)**
+4. Paste your GitHub repo URL:
+
+   ```
+   https://github.com/<your-username>/canvas-app-ui-design
+   ```
+5. Select the repository and branch (`main`)
+
+> Claude will now load your project, including `.agents/skills`
+
+---
+
+### 4. How the Skill is Triggered (Important)
+
+❌ Do NOT use:
+
+```
 /canvas-apps-ui-gen
 ```
 
-> Note: In modern agent setups (Cursor, Claude Code latest), this step is optional because skills are automatically detected.
+✅ Instead, just describe your task naturally.
+
+Claude will automatically detect and use the skill from:
+
+```
+.agents/skills/canvas-apps-ui-gen
+```
 
 ---
 
 ## Usage
 
-### Run the Skill
+### Generate UI (Recommended)
 
-To start generating UI YAML:
+Example:
 
-```bash
-/canvas-apps-ui-gen
+```
+Create a Power Apps Canvas App UI with:
+- Date dropdown
+- Team input textbox
+- Region radio buttons
+- Gallery showing on-shift users
 ```
 
 ---
 
-### Choose a Mode
+### Improve Existing YAML
 
-The tool will ask how you want to proceed:
-
-1. **Replicate**: Provide a mockup or design screenshot to replicate
-2. **Build From Scratch**: Describe a new UI layout textually
-3. **Improve**: Enhance your existing Power Apps screen
+```
+Improve this Power Apps YAML for layout, responsiveness, and naming conventions:
+[paste your YAML]
+```
 
 ---
 
-### Input Examples
-
-#### From a Screenshot/Mockup
-
-```bash
-/canvas-apps-ui-gen C:\path\to\mockup.png
-```
-
-#### From Text Description
-
-Just run the command and describe:
+### Replicate a UI
 
 ```
-Dashboard with 3 summary cards, a central grid, and a chart.
+Generate Power Apps Canvas UI YAML based on this layout:
+[describe or attach mockup]
 ```
-
-#### Improve an Existing Screen
-
-Upload your Power Apps screenshot and choose **Improvement**.
 
 ---
 
 ## Process and Output
 
-* The tool generates YAML saved in the `canvas-apps-ui-gen-output/` directory.
-* Copy the YAML code and paste it into **Power Apps Studio**:
+* Claude generates YAML directly in the response
+* Copy the YAML and paste into **Power Apps Studio**:
 
-1. Open the generated YAML file and copy its content
-2. In Power Apps Studio, right-click the target screen/container
-3. Select **Paste Code** and adjust as needed
+1. Open your app in Power Apps Studio
+2. Right-click the target screen/container
+3. Select **Paste Code**
+4. Adjust as needed
 
 ---
 
 ## Folder Structure (After Installation)
 
-```bash
-my-power-platform-project/
+```
+canvas-app-ui-design/
 └── .agents/
     └── skills/
         └── canvas-apps-ui-gen/
@@ -111,6 +141,18 @@ my-power-platform-project/
 
 ## Notes
 
-* You must run the install command **inside your project folder**
-* No need to manually create `.agents` — it is auto-generated
-* `find-skills` is optional and not required for this tool
+* Claude only loads skills from the **linked repository workspace**
+* No manual activation required
+* No slash commands required
+* `find-skills` is optional
+* If the skill is not used, improve your prompt specificity
+
+---
+
+## Recommended (For Consistent Results)
+
+Add this instruction in Claude:
+
+```
+Always check .agents/skills and use canvas-apps-ui-gen for Power Apps UI tasks.
+```
